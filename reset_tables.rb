@@ -12,6 +12,12 @@ def reset_tables(db)
     description TEXT NOT NULL,
     phone_number TEXT NOT NULL);")
 
+  db.run("DROP TABLE IF EXISTS comments;")
+  db.run("CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    contents TEXT NOT NULL,
+    advert_id INTEGER NOT NULL);")
+
   # Add your table creation SQL here
   # Each one should be a pair of lines:
   #   db.run("DROP TABLE IF EXISTS ...;")

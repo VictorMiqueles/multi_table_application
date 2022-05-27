@@ -1,8 +1,9 @@
 require "advert_entity"
 
 class AdvertsTable
-  def initialize(db)
+  def initialize(db, comments_table)
     @db = db
+    @comments_table = comments_table
   end
 
   def list
@@ -29,7 +30,12 @@ class AdvertsTable
     return AdvertEntity.new(
       row["description"],
       row["phone_number"],
+      get_comments_for_advert(row["id"]),
       row["id"]
     )
+  end
+
+  def get_comments_for_advert(id)
+    return @comments_table.list_for_advert_id(id)
   end
 end

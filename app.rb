@@ -7,6 +7,8 @@ require 'sinatra/reloader'
 require "database_connection"
 require "adverts_table"
 require "advert_entity"
+require "comments_table"
+require "comment_entity"
 
 class WebApplicationServer < Sinatra::Base
   # This line allows us to send HTTP Verbs like `DELETE` using forms
@@ -28,8 +30,12 @@ class WebApplicationServer < Sinatra::Base
     $global = { db: db }
   end
 
+  def comments_table
+    $global[:comments_table] ||= CommentsTable.new($global[:db])
+  end
+
   def adverts_table
-    $global[:adverts_table] ||= AdvertsTable.new($global[:db])
+    $global[:adverts_table] ||= AdvertsTable.new($global[:db], comments_table)
   end
 
   get "/adverts" do
@@ -48,6 +54,18 @@ class WebApplicationServer < Sinatra::Base
       params["phone_number"]
     )
     adverts_table.add(advert)
+    redirect "/adverts"
+  end
+
+  get "/adverts/:advert_id/comments/new" do
+    erb :comments_new, locals: {
+      advert_id: params[:advert_id].to_i
+    }
+  end
+
+  post "/adverts/:advert_id/comments" do
+    comment = CommentEntity.new(params[:contents], params[:advert_id].to_i)
+    comments_table.add(comment)
     redirect "/adverts"
   end
 end

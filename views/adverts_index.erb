@@ -7,6 +7,14 @@
     <section>
       <p><%= advert.description %></p>
       <p>Please call <%= advert.phone_number %> about this cat.</p>
+
+      <h2>Comments</h2>
+
+      <% advert.comments.each do |comment| %>
+        <p><%= comment.contents %><p>
+      <% end %>
+
+      <a href="/adverts/<%= advert.id %>/comments/new">Post New Comment</a>
     </section>
   <% end %>
 <% end %>

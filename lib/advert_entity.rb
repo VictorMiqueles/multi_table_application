@@ -1,7 +1,8 @@
 class AdvertEntity
-  def initialize(description, phone_number, id = nil)
+  def initialize(description, phone_number, comments = [], id = nil)
     @description = description
     @phone_number = phone_number
+    @comments = comments
     @id = id
   end
 
@@ -11,6 +12,10 @@ class AdvertEntity
 
   def phone_number
     return @phone_number
+  end
+
+  def comments
+    return @comments
   end
 
   def id
