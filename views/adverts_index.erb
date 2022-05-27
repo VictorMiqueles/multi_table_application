@@ -1,0 +1,16 @@
+<h1>Lost Cat Adverts</h1>
+
+<% if adverts.empty? %>
+  All cats are secure.
+<% else %>
+  <% adverts.each do |advert| %>
+    <section>
+      <p><%= advert.description %></p>
+      <p>Please call <%= advert.phone_number %> about this cat.</p>
+    </section>
+  <% end %>
+<% end %>
+
+<p>
+  <a href="/adverts/new">Post New Advert</a>
+</p>
